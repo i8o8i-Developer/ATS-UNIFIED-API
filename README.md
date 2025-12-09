@@ -304,8 +304,7 @@ This Project Is Licensed Under The MIT License 📜 - See The [LICENSE](LICENSE)
   <h3>⭐ Star This Repo If You Found It Helpful! ⭐</h3>
   <p>
     <a href="https://github.com/i8o8i-Developer/ATS-Unified-API">GitHub</a> •
-    <a href="https://twitter.com/your-handle">Twitter</a> •
-    <a href="https://linkedin.com/in/your-profile">LinkedIn</a>
+    <a href="https://linkedin.com/in/anubhav1608">LinkedIn</a>
   </p>
   <p><em>Made with ❤️ for Efficient Recruitment Processes</em></p>
   <img src="https://forthebadge.com/images/badges/built-with-love.svg" alt="Built with Love" />
