@@ -14,7 +14,6 @@
 </p>
 
 <div align="center">
-  <img src="https://img.shields.io/badge/ATS-Unified-API-🚀-brightgreen?style=for-the-badge" alt="ATS-Unified-API Logo" />
   <br />
   <img src="https://img.shields.io/github/stars/i8o8i-Developer/ATS-Unified-API?style=social" alt="GitHub Stars" />
   <img src="https://img.shields.io/github/forks/i8o8i-Developer/ATS-Unified-API?style=social" alt="GitHub Forks" />
