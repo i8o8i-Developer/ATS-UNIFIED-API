@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "first_name": "John",
+    "last_name": "Doe",
+    "emails": [
+      {
+        "value": "john.doe@example.com",
+        "type": "work"
+      }
+    ],
+    "phones": [
+      {
+        "value": "+1234567890",
+        "type": "mobile"
+      }
+    ],
+    "cv_url": "https://example.com/cv/john_doe.pdf"
+  },
+  {
+    "id": 2,
+    "first_name": "Jane",
+    "last_name": "Smith",
+    "emails": [
+      {
+        "value": "jane.smith@example.com",
+        "type": "work"
+      }
+    ],
+    "phones": [
+      {
+        "value": "+0987654321",
+        "type": "mobile"
+      }
+    ],
+    "cv_url": "https://example.com/cv/jane_smith.pdf"
+  },
+  {
+    "id": 3,
+    "first_name": "Bob",
+    "last_name": "Johnson",
+    "emails": [
+      {
+        "value": "bob.johnson@example.com",
+        "type": "work"
+      }
+    ],
+    "phones": [
+      {
+        "value": "+1122334455",
+        "type": "mobile"
+      }
+    ],
+    "cv_url": "https://example.com/cv/bob_johnson.pdf"
+  },
+  {
+    "id": 4,
+    "first_name": "Anubhav",
+    "last_name": "Chaurasia",
+    "emails": [
+      {
+        "value": "anubhav@example.com",
+        "type": "work"
+      }
+    ],
+    "phones": [
+      {
+        "value": "1234567890",
+        "type": "mobile"
+      }
+    ],
+    "cv_url": "https://example.com/cv/anubhav.pdf"
+  }
+]

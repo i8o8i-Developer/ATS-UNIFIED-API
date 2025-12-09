@@ -1,0 +1,86 @@
+org: i8o8i
+service: SVL-FRAMEWORK
+
+provider:
+  name: aws
+  runtime: python3.12
+  stage: dev
+  region: ap-south-1
+
+  environment:
+    AtsBaseUrl: ${env:ATS_BASE_URL}     
+    AtsApiKey: ${env:ATS_API_KEY}     
+    AtsApplicationsPath: ${env:ATS_APPLICATIONS_PATH, "/applications"}
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3000
+    host: 127.0.0.1
+
+functions:
+  Hello:
+    handler: handler.Hello
+    events:
+      - http:
+          path: hello
+          method: get
+          cors: true
+
+  GetJobs:
+    handler: handler.GetJobs
+    events:
+      - http:
+          path: jobs
+          method: get
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                page: false
+                per_page: false
+
+  CreateCandidate:
+    handler: handler.CreateCandidate
+    events:
+      - http:
+          path: candidates
+          method: post
+          cors: true
+
+  GetCandidates:
+    handler: handler.GetCandidates
+    events:
+      - http:
+          path: candidates
+          method: get
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                page: false
+                per_page: false
+
+  CreateApplication:
+    handler: handler.CreateApplication
+    events:
+      - http:
+          path: applications
+          method: post
+          cors: true
+
+  GetApplications:
+    handler: handler.GetApplications
+    events:
+      - http:
+          path: applications
+          method: get
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                job_id: false
+                page: false
+                per_page: false

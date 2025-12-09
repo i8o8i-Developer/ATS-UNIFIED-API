@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "title": "Software Engineer",
+    "location": "New York",
+    "status": "open",
+    "url": "https://example.com/job1"
+  },
+  {
+    "id": 2,
+    "title": "Data Scientist",
+    "location": "San Francisco",
+    "status": "open",
+    "url": "https://example.com/job2"
+  },
+  {
+    "id": 3,
+    "title": "Product Manager",
+    "location": "Remote",
+    "status": "draft",
+    "url": "https://example.com/job3"
+  },
+  {
+    "id": 4,
+    "title": "Frontend Developer",
+    "location": "Austin",
+    "status": "open",
+    "url": "https://example.com/job4"
+  },
+  {
+    "id": 5,
+    "title": "DevOps Engineer",
+    "location": "Seattle",
+    "status": "open",
+    "url": "https://example.com/job5"
+  },
+  {
+    "id": 6,
+    "title": "UX Designer",
+    "location": "Los Angeles",
+    "status": "closed",
+    "url": "https://example.com/job6"
+  },
+  {
+    "id": 7,
+    "title": "Marketing Specialist",
+    "location": "Chicago",
+    "status": "open",
+    "url": "https://example.com/job7"
+  },
+  {
+    "id": 8,
+    "title": "Sales Representative",
+    "location": "Miami",
+    "status": "draft",
+    "url": "https://example.com/job8"
+  }
+]

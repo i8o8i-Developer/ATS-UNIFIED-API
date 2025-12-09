@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS API Tester</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --warning-color: #ffc107;
+            --dark-bg: #1a1a1a;
+            --light-bg: #2d2d2d;
+            --text-color: #e9ecef;
+            --border-color: #495057;
+            --shadow: 0 2px 4px rgba(0,0,0,0.3);
+            --card-bg: #343a40;
+            --input-bg: #495057;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            margin: 0;
+            padding: 20px;
+            background: var(--dark-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--primary-color);
+            font-weight: 300;
+        }
+
+        .note {
+            background: var(--warning-color);
+            color: #212529;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .endpoint {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .endpoint:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+        }
+
+        .endpoint h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            font-size: 1.4em;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .method.get { background: var(--primary-color); color: white; }
+        .method.post { background: var(--success-color); color: white; }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        input[type="text"], input[type="email"], input[type="url"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1em;
+            background: var(--input-bg);
+            color: var(--text-color);
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
+
+        button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: background 0.3s, transform 0.1s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .response {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background: var(--light-bg);
+            border-left: 4px solid var(--primary-color);
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+            color: var(--text-color);
+        }
+
+        .response.success {
+            border-left-color: var(--success-color);
+            background: #1e7e34;
+        }
+
+        .response.error {
+            border-left-color: var(--error-color);
+            background: #bd2130;
+        }
+
+        .status {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .loading {
+            display: none;
+            margin-left: 10px;
+            border: 2px solid var(--border-color);
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .endpoint {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 ATS Unified API Tester</h1>
+        </header>
+
+        <div class="note">
+            Make Sure The Serverless Offline Is Running On <strong>http://localhost:3000</strong>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method get">GET</span> /hello</h2>
+            <button onclick="callHello()">Call Hello</button>
+            <div class="loading" id="hello-loading"></div>
+            <div id="hello-response" class="response"></div>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method get">GET</span> /jobs</h2>
+            <div class="form-group">
+                <label for="jobs-page">Page:</label>
+                <input type="number" id="jobs-page">
+            </div>
+            <div class="form-group">
+                <label for="jobs-per-page">Per Page:</label>
+                <input type="number" id="jobs-per-page">
+            </div>
+            <button onclick="callJobs()">Get Jobs</button>
+            <div class="loading" id="jobs-loading"></div>
+            <div id="jobs-response" class="response"></div>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method get">GET</span> /candidates</h2>
+            <div class="form-group">
+                <label for="candidates-page">Page:</label>
+                <input type="number" id="candidates-page">
+            </div>
+            <div class="form-group">
+                <label for="candidates-per-page">Per Page:</label>
+                <input type="number" id="candidates-per-page">
+            </div>
+            <button onclick="callCandidates()">Get Candidates</button>
+            <div class="loading" id="candidates-loading"></div>
+            <div id="candidates-response" class="response"></div>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method post">POST</span> /candidates</h2>
+            <div class="form-group">
+                <label for="candidate-name">Name:</label>
+                <input type="text" id="candidate-name" required>
+            </div>
+            <div class="form-group">
+                <label for="candidate-email">Email:</label>
+                <input type="email" id="candidate-email" required>
+            </div>
+            <div class="form-group">
+                <label for="candidate-phone">Phone:</label>
+                <input type="text" id="candidate-phone">
+            </div>
+            <div class="form-group">
+                <label for="candidate-resume">Resume URL:</label>
+                <input type="url" id="candidate-resume">
+            </div>
+            <div class="form-group">
+                <label for="candidate-job-id">Job ID:</label>
+                <input type="text" id="candidate-job-id" required>
+            </div>
+            <button onclick="callCreateCandidate()">Create Candidate</button>
+            <div class="loading" id="candidate-loading"></div>
+            <div id="candidate-response" class="response"></div>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method get">GET</span> /applications</h2>
+            <div class="form-group">
+                <label for="apps-job-id">Job ID (optional):</label>
+                <input type="text" id="apps-job-id">
+            </div>
+            <div class="form-group">
+                <label for="apps-page">Page:</label>
+                <input type="number" id="apps-page">
+            </div>
+            <div class="form-group">
+                <label for="apps-per-page">Per Page:</label>
+                <input type="number" id="apps-per-page">
+            </div>
+            <button onclick="callApplications()">Get Applications</button>
+            <div class="loading" id="apps-loading"></div>
+            <div id="apps-response" class="response"></div>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method post">POST</span> /applications</h2>
+            <div class="form-group">
+                <label for="app-candidate-id">Candidate ID:</label>
+                <input type="text" id="app-candidate-id" required>
+            </div>
+            <div class="form-group">
+                <label for="app-job-id">Job ID:</label>
+                <input type="text" id="app-job-id" required>
+            </div>
+            <button onclick="callCreateApplication()">Create Application</button>
+            <div class="loading" id="app-loading"></div>
+            <div id="app-response" class="response"></div>
+        </div>
+    </div>
+
+    <script>
+        const baseUrl = 'http://127.0.0.1:3000/dev';
+
+        function showLoading(elementId) {
+            document.getElementById(elementId).style.display = 'inline-block';
+        }
+
+        function hideLoading(elementId) {
+            document.getElementById(elementId).style.display = 'none';
+        }
+
+        function displayResponse(elementId, status, data, loadingId) {
+            hideLoading(loadingId);
+            const element = document.getElementById(elementId);
+            element.className = 'response ' + (status >= 200 && status < 300 ? 'success' : 'error');
+            element.innerHTML = `<div class="status">Status: ${status}</div><pre>${JSON.stringify(data, null, 2)}</pre>`;
+        }
+
+        async function callHello() {
+            showLoading('hello-loading');
+            try {
+                const response = await fetch(`${baseUrl}/hello`);
+                const data = await response.json();
+                displayResponse('hello-response', response.status, data, 'hello-loading');
+            } catch (error) {
+                displayResponse('hello-response', 0, { error: error.message }, 'hello-loading');
+            }
+        }
+
+        async function callJobs() {
+            showLoading('jobs-loading');
+            const page = document.getElementById('jobs-page').value;
+            const perPage = document.getElementById('jobs-per-page').value;
+            let url = `${baseUrl}/jobs`;
+            const params = new URLSearchParams();
+            if (page) params.append('page', page);
+            if (perPage) params.append('per_page', perPage);
+            if (params.toString()) url += '?' + params.toString();
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                displayResponse('jobs-response', response.status, data, 'jobs-loading');
+            } catch (error) {
+                displayResponse('jobs-response', 0, { error: error.message }, 'jobs-loading');
+            }
+        }
+
+        async function callCandidates() {
+            showLoading('candidates-loading');
+            const page = document.getElementById('candidates-page').value;
+            const perPage = document.getElementById('candidates-per-page').value;
+            let url = `${baseUrl}/candidates`;
+            const params = new URLSearchParams();
+            if (page) params.append('page', page);
+            if (perPage) params.append('per_page', perPage);
+            if (params.toString()) url += '?' + params.toString();
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                displayResponse('candidates-response', response.status, data, 'candidates-loading');
+            } catch (error) {
+                displayResponse('candidates-response', 0, { error: error.message }, 'candidates-loading');
+            }
+        }
+
+        async function callCreateCandidate() {
+            const name = document.getElementById('candidate-name').value;
+            const email = document.getElementById('candidate-email').value;
+            const phone = document.getElementById('candidate-phone').value;
+            const resume = document.getElementById('candidate-resume').value;
+            const jobId = document.getElementById('candidate-job-id').value;
+
+            if (!name || !email || !jobId) {
+                alert('Name, Email, And Job ID Are Required');
+                return;
+            }
+
+            showLoading('candidate-loading');
+            const payload = {
+                name,
+                email,
+                phone,
+                resume_url: resume,
+                job_id: jobId
+            };
+
+            try {
+                const response = await fetch(`${baseUrl}/candidates`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await response.json();
+                displayResponse('candidate-response', response.status, data, 'candidate-loading');
+            } catch (error) {
+                displayResponse('candidate-response', 0, { error: error.message }, 'candidate-loading');
+            }
+        }
+
+        async function callCreateApplication() {
+            const candidateId = document.getElementById('app-candidate-id').value;
+            const jobId = document.getElementById('app-job-id').value;
+
+            if (!candidateId || !jobId) {
+                alert('Candidate ID and Job ID are required');
+                return;
+            }
+
+            showLoading('app-loading');
+            const payload = {
+                candidate_id: candidateId,
+                job_id: jobId
+            };
+
+            try {
+                const response = await fetch(`${baseUrl}/applications`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await response.json();
+                displayResponse('app-response', response.status, data, 'app-loading');
+            } catch (error) {
+                displayResponse('app-response', 0, { error: error.message }, 'app-loading');
+            }
+        }
+
+        async function callApplications() {
+            const jobId = document.getElementById('apps-job-id').value;
+            const page = document.getElementById('apps-page').value;
+            const perPage = document.getElementById('apps-per-page').value;
+
+            showLoading('apps-loading');
+            let url = `${baseUrl}/applications`;
+            const params = new URLSearchParams();
+            if (jobId) params.append('job_id', jobId);
+            if (page) params.append('page', page);
+            if (perPage) params.append('per_page', perPage);
+            if (params.toString()) url += '?' + params.toString();
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                displayResponse('apps-response', response.status, data, 'apps-loading');
+            } catch (error) {
+                displayResponse('apps-response', 0, { error: error.message }, 'apps-loading');
+            }
+        }
+    </script>
+</body>
+</html>
