@@ -285,9 +285,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for Detailed Guidelines.
 ## 👥 Authors
 
 <div align="center">
-  <a href="https://github.com/i8o8i-Developer">
-    <img src="https://img.shields.io/badge/Maintainer-i8o8i-Developer-blue?style=for-the-badge&logo=github" alt="Maintainer" />
-  </a>
   <br />
   <p><strong>Built With ❤️ By The ATS-Unified-API Individual</strong></p>
 </div>
