@@ -159,7 +159,7 @@ ATS-Unified-API/
 
 3. **Install Serverless Framework (Optional)** ☁️
    ```bash
-   npm install -g serverless
+   npm install serverless
    npm install serverless-offline --save-dev
    ```
 
